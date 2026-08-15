@@ -359,10 +359,15 @@
     width: var(--tab-action-height, 42px) !important;
   }
 
-  /* 2. Let the menu shrink back to its widest real item (CMI forces 280px) */
+  /* 2. Let the menu shrink back to its widest real item (CMI forces 280px),
+   * but never below 4 buttons wide + slack: CMI's 0/25/37.5/50/75% margin
+   * layout needs each quarter of the menu to fit one button. At exactly
+   * 4×42px the bookmark button (75% + 42px) lands flush on the content edge
+   * and the popup's own padding clips it — hence the extra slack. No-op on
+   * wider menus (e.g. pinned tab). */
   #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu) {
     width: auto !important;
-    min-width: 0 !important;
+    min-width: calc(4 * var(--tab-action-height, 42px) + 20px) !important;
   }
 
   /* 3. Kill the animated purple gradient glow + box-shadow transition */
@@ -400,8 +405,36 @@
     box-shadow: none !important;
   }
 
-  /* 4./5. Grouped centered margins REMOVED for testing (backup: git d5eb866) —
-   * CMI's original 0/25/37.5/50/75% margins apply again. */
+  /* 4. Real flex row — cmi-buttons.uc.js moves the CMI buttons into a
+   * #uc-cmi-btnrow hbox at the top of the popup on popupshowing (event-driven,
+   * pref-gated). Native flex centers the group whatever the button count and
+   * menu width: no % margins, no :has() (which Gecko fails to re-evaluate when
+   * Firefox toggles hidden during popupshowing), no slot counting.
+   * Hidden items collapse inside the row automatically. */
+  #tabContextMenu #uc-cmi-btnrow {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  /* Neutralize CMI's absolute % margins + negative margin-top on the moved
+   * buttons (chained :is() = 6 IDs, beats CMI's ~4-5-ID :has() rules). */
+  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
+    #uc-cmi-btnrow
+    > :is(
+      #context_reloadTab,
+      #context_reloadSelectedTabs,
+      #context_pinTab,
+      #context_unpinTab,
+      #context_pinSelectedTabs,
+      #context_unpinSelectedTabs,
+      #context_zen-add-essential,
+      #context_zen-remove-essential,
+      #context_bookmarkTab,
+      #context_bookmarkSelectedTabs
+    ) {
+    margin: 0 !important;
+  }
 }
 
 /* Hide "Add Route for Domain" (Zen domain routing item — real ID found via DOM dump)

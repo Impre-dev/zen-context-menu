@@ -17,6 +17,11 @@
       "name": "Pinned URL Extractor",
       "description": "Moves 'Replace pinned URL with current' out of the 'Edit pinned URL' submenu, above 'Reset pinned tab'",
       "include": ["chrome://browser/content/browser.xhtml"]
+    },
+    "cmi-buttons.uc.js": {
+      "name": "CMI Buttons Flex Row",
+      "description": "Moves the CMI action buttons into a #uc-cmi-btnrow hbox (event-driven, pref-gated) so CSS flex centers the group reliably, replacing CMI's % margins",
+      "include": ["chrome://browser/content/browser.xhtml"]
     }
   },
   "preferences": "preferences.json",
