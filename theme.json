@@ -10,17 +10,17 @@
   "readme": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/81fcd6b3-f014-4796-988f-6c3cb3874db8/readme.md",
   "image": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/81fcd6b3-f014-4796-988f-6c3cb3874db8/image.png",
   "author": "KiKaraage (fork: Impre)",
-  "version": "4.2.0",
+  "version": "4.4.0",
   "js": true,
   "scripts": {
     "pinned-url.uc.js": {
       "name": "Pinned URL Extractor",
-      "description": "Moves 'Replace pinned URL with current' out of the 'Edit pinned URL' submenu, above 'Reset pinned tab'",
+      "description": "Extracts 'Replace pinned URL with current' from the 'Edit pinned URL' submenu to top level (short label 'Remplacer l'URL', pinned tabs only) and hides the gutted submenu. Re-asserted on popupshown — Zen's popupshowing handlers undo earlier DOM edits",
       "include": ["chrome://browser/content/browser.xhtml"]
     },
     "cmi-buttons.uc.js": {
-      "name": "CMI Buttons Flex Row",
-      "description": "Moves the CMI action buttons into a #uc-cmi-btnrow hbox (event-driven, pref-gated) so CSS flex centers the group reliably, replacing CMI's % margins",
+      "name": "CMI Buttons Tagger",
+      "description": "On popupshowing, counts visible CMI action buttons and tags #tabContextMenu with ucbtns='3|4' so CSS can pick the right centered margin layout (works around Gecko freezing :has() on hidden toggles during popupshowing)",
       "include": ["chrome://browser/content/browser.xhtml"]
     }
   },

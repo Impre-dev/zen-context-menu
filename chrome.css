@@ -342,9 +342,10 @@
  * specific argument. Chaining `:is(#tabContextMenu)` selectors DOES stack
  * (each adds 1 ID), so 6 chained IDs beat anything CMI ships. */
 @media -moz-pref('uc.fixcontext.cmibuttonsquare') {
-  /* 1. Square buttons */
+  /* 1. Square buttons — descendant selector (not `>`): the buttons now live
+   * inside #uc-cmi-btnrow, they are no longer direct children of the popup */
   #tabContextMenu
-    > :is(
+    :is(
       #context_reloadTab,
       #context_reloadSelectedTabs,
       #context_pinTab,
@@ -405,35 +406,55 @@
     box-shadow: none !important;
   }
 
-  /* 4. Real flex row — cmi-buttons.uc.js moves the CMI buttons into a
-   * #uc-cmi-btnrow hbox at the top of the popup on popupshowing (event-driven,
-   * pref-gated). Native flex centers the group whatever the button count and
-   * menu width: no % margins, no :has() (which Gecko fails to re-evaluate when
-   * Firefox toggles hidden during popupshowing), no slot counting.
-   * Hidden items collapse inside the row automatically. */
-  #tabContextMenu #uc-cmi-btnrow {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
+  /* 4. Centered button group — layout driven by cmi-buttons.uc.js, which tags
+   * the popup with ucbtns="<visible count>" on popupshowing (event-driven).
+   * The DOM-flex-row approach was tried and abandoned: any non-menupopup
+   * container breaks CMI's `menupopup > menuitem` icon selectors, and a nested
+   * menupopup never renders its content.
+   * Buttons stay direct children; each gets an absolute % margin computed
+   * from the popup width. A +2.5px optical compensation corrects the measured
+   * asymmetry (left gutter 5px vs right gutter 10px) caused by the popup's
+   * internal padding. */
 
-  /* Neutralize CMI's absolute % margins + negative margin-top on the moved
-   * buttons (chained :is() = 6 IDs, beats CMI's ~4-5-ID :has() rules). */
-  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
-    #uc-cmi-btnrow
-    > :is(
-      #context_reloadTab,
-      #context_reloadSelectedTabs,
+  /* 4a. Three buttons: reload / {pin OR essential} / bookmark — the middle
+   * slot takes pin or essential, whichever is visible (mutually exclusive
+   * in 3-button states: pinned tabs, tab groups, essential tabs). */
+  #tabContextMenu[ucbtns='3']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
+    :is(#context_reloadTab, #context_reloadSelectedTabs):not([hidden]) {
+    margin-left: calc(50% - 1.5 * var(--tab-action-height, 42px) + 2.5px) !important;
+  }
+  #tabContextMenu[ucbtns='3']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
+    :is(
       #context_pinTab,
       #context_unpinTab,
       #context_pinSelectedTabs,
       #context_unpinSelectedTabs,
       #context_zen-add-essential,
-      #context_zen-remove-essential,
-      #context_bookmarkTab,
-      #context_bookmarkSelectedTabs
-    ) {
-    margin: 0 !important;
+      #context_zen-remove-essential
+    ):not([hidden]) {
+    margin-left: calc(50% + 2.5px) !important;
+  }
+  #tabContextMenu[ucbtns='3']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
+    :is(#context_bookmarkTab, #context_bookmarkSelectedTabs):not([hidden]) {
+    margin-left: calc(50% + 0.5 * var(--tab-action-height, 42px) + 2.5px) !important;
+  }
+
+  /* 4b. Four buttons (classic tabs): reload / pin / essential / bookmark */
+  #tabContextMenu[ucbtns='4']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
+    :is(#context_reloadTab, #context_reloadSelectedTabs):not([hidden]) {
+    margin-left: calc(50% - 2 * var(--tab-action-height, 42px) + 2.5px) !important;
+  }
+  #tabContextMenu[ucbtns='4']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
+    :is(#context_pinTab, #context_unpinTab, #context_pinSelectedTabs, #context_unpinSelectedTabs):not([hidden]) {
+    margin-left: calc(50% - 1 * var(--tab-action-height, 42px) + 2.5px) !important;
+  }
+  #tabContextMenu[ucbtns='4']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
+    :is(#context_zen-add-essential, #context_zen-remove-essential):not([hidden]) {
+    margin-left: calc(50% + 2.5px) !important;
+  }
+  #tabContextMenu[ucbtns='4']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
+    :is(#context_bookmarkTab, #context_bookmarkSelectedTabs):not([hidden]) {
+    margin-left: calc(50% + 1 * var(--tab-action-height, 42px) + 2.5px) !important;
   }
 }
 
