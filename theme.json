@@ -1,0 +1,23 @@
+{
+  "id": "zen-context-menu",
+  "name": "Zen Context Menu",
+  "description": "Declutter your right click menu, hide options you don't need",
+  "homepage": "https://github.com/KiKaraage/ZenMods/",
+  "style": {
+    "chrome": "chrome.css",
+    "content": ""
+  },
+  "readme": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/81fcd6b3-f014-4796-988f-6c3cb3874db8/readme.md",
+  "image": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/81fcd6b3-f014-4796-988f-6c3cb3874db8/image.png",
+  "author": "KiKaraage",
+  "version": "3.1",
+  "preferences": "preferences.json",
+  "tags": [
+    "context menu"
+  ],
+  "createdAt": "2024-10-06",
+  "updatedAt": "2025-08-26",
+  "fork": [
+    "zen"
+  ]
+}
