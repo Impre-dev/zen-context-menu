@@ -2,7 +2,7 @@
   "id": "zen-context-menu",
   "name": "Zen Context Menu",
   "description": "Declutter your right click menu, hide options you don't need",
-  "homepage": "https://github.com/KiKaraage/ZenMods/",
+  "homepage": "https://github.com/Impre-dev/zen-context-menu",
   "style": {
     "chrome": "chrome.css",
     "content": ""
@@ -17,6 +17,7 @@
   ],
   "createdAt": "2024-10-06",
   "updatedAt": "2025-08-26",
+  "upstream": "https://github.com/KiKaraage/ZenMods/",
   "fork": [
     "zen"
   ]
