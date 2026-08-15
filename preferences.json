@@ -104,6 +104,26 @@
   },
   {
     "type": "separator",
+    "label": "📌 Pinned tabs & sharing",
+    "margin": "15px 0 15px 0"
+  },
+  {
+    "property": "uc.hidecontext.share",
+    "label": "📕 Hide 'Partager' (Share)",
+    "type": "checkbox"
+  },
+  {
+    "property": "uc.hidecontext.editpinnedurl",
+    "label": "📌 Hide 'Edit pinned URL' submenu — 'Replace URL with current' is auto-extracted above 'Reset pinned tab' by the mod script",
+    "type": "checkbox"
+  },
+  {
+    "property": "uc.fixcontext.cmibuttonsquare",
+    "label": "🔲 Compact CMI top buttons: square (42px), grouped & centered, no hover glow, menu shrinks to content",
+    "type": "checkbox"
+  },
+  {
+    "type": "separator",
     "label": "🌐 Page context menu (right-click a page)",
     "margin": "15px 0 15px 0"
   },

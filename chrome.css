@@ -311,6 +311,141 @@
   }
 }
 
+/* Hide "Share" (no stable ID — label selector; 'Créer un lien partageable' is a
+ * different item with its own ID and stays untouched) */
+@media -moz-pref('uc.hidecontext.share') {
+  #tabContextMenu > :is(menu, menuitem)[label='Partager'],
+  #tabContextMenu menuitem[label='Partager'] {
+    display: none !important;
+  }
+}
+
+/* Hide "Edit pinned URL" submenu — pair with pinned-url.uc.js which first
+ * extracts 'Replace pinned URL with current' out of it (icon kept: CMI
+ * styles #context_zen-replace-pinned-url-with-current by ID) */
+@media -moz-pref('uc.hidecontext.editpinnedurl') {
+  #context_zen-edit-pinned-page,
+  #context_zen-edit-pinned-url {
+    display: none !important;
+  }
+}
+
+/* Square + grouped CMI top buttons, no hover glow (Impre fork) —
+ * CMI sizes them at 25% of the menu width (--tab-action-width) and spreads
+ * them with 0/25/37.5/50/75% margins, and forces the menu at 280px wide.
+ * This makes them square (--tab-action-height), groups them centered as a
+ * tight row, lets the menu shrink back to its content, and kills the animated
+ * purple gradient glow (::before) + box-shadow transition on hover.
+ *
+ * Specificity note: CMI's margin rules are `#tabContextMenu:has(...)...:has(...) #id`
+ * (~5 IDs). A single :is(#a,#a,#a) does NOT stack — :is() only counts its most
+ * specific argument. Chaining `:is(#tabContextMenu)` selectors DOES stack
+ * (each adds 1 ID), so 6 chained IDs beat anything CMI ships. */
+@media -moz-pref('uc.fixcontext.cmibuttonsquare') {
+  /* 1. Square buttons */
+  #tabContextMenu
+    > :is(
+      #context_reloadTab,
+      #context_reloadSelectedTabs,
+      #context_pinTab,
+      #context_unpinTab,
+      #context_pinSelectedTabs,
+      #context_unpinSelectedTabs,
+      #context_zen-add-essential,
+      #context_zen-remove-essential,
+      #context_bookmarkTab,
+      #context_bookmarkSelectedTabs
+    ):not([hidden]) {
+    width: var(--tab-action-height, 42px) !important;
+  }
+
+  /* 2. Let the menu shrink back to its widest real item (CMI forces 280px) */
+  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu) {
+    width: auto !important;
+    min-width: 0 !important;
+  }
+
+  /* 3. Kill the animated purple gradient glow + box-shadow transition */
+  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu)
+    :is(
+      #context_reloadTab,
+      #context_reloadSelectedTabs,
+      #context_pinTab,
+      #context_unpinTab,
+      #context_pinSelectedTabs,
+      #context_unpinSelectedTabs,
+      #context_zen-add-essential,
+      #context_zen-remove-essential,
+      #context_bookmarkTab,
+      #context_bookmarkSelectedTabs
+    )::before {
+    content: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu)
+    :is(
+      #context_reloadTab,
+      #context_reloadSelectedTabs,
+      #context_pinTab,
+      #context_unpinTab,
+      #context_pinSelectedTabs,
+      #context_unpinSelectedTabs,
+      #context_zen-add-essential,
+      #context_zen-remove-essential,
+      #context_bookmarkTab,
+      #context_bookmarkSelectedTabs
+    ):not([hidden]) {
+    transition: none !important;
+    box-shadow: none !important;
+  }
+
+  /* 4. Group buttons as a tight centered row instead of 0/25/37.5/50/75%.
+   * Percentage margins resolve against the popup width, so calc(50% ± n·W)
+   * centers the group whatever the final menu width is.
+   * Default layout: 3 buttons (reload / pin / bookmark) — matches CMI cases 3-4. */
+  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
+    :is(#context_reloadTab, #context_reloadSelectedTabs):not([hidden]) {
+    margin-left: calc(50% - 1.5 * var(--tab-action-height, 42px)) !important;
+  }
+  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
+    :is(#context_pinTab, #context_unpinTab, #context_pinSelectedTabs, #context_unpinSelectedTabs):not([hidden]) {
+    margin-left: 50% !important;
+  }
+  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
+    :is(#context_bookmarkTab, #context_bookmarkSelectedTabs):not([hidden]) {
+    margin-left: calc(50% + 0.5 * var(--tab-action-height, 42px)) !important;
+  }
+
+  /* 5. With an essential button visible (add/remove are mutually exclusive),
+   * it's a 4-button row → shift every slot by half a button. Extra :has() ID
+   * makes this win over the 3-button layout above. */
+  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):has(
+      :is(#context_zen-add-essential, #context_zen-remove-essential):not([hidden])
+    )
+    :is(#context_reloadTab, #context_reloadSelectedTabs):not([hidden]) {
+    margin-left: calc(50% - 2 * var(--tab-action-height, 42px)) !important;
+  }
+  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):has(
+      :is(#context_zen-add-essential, #context_zen-remove-essential):not([hidden])
+    )
+    :is(#context_pinTab, #context_unpinTab, #context_pinSelectedTabs, #context_unpinSelectedTabs):not([hidden]) {
+    margin-left: calc(50% - 1 * var(--tab-action-height, 42px)) !important;
+  }
+  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):has(
+      :is(#context_zen-add-essential, #context_zen-remove-essential):not([hidden])
+    )
+    :is(#context_zen-add-essential, #context_zen-remove-essential):not([hidden]) {
+    margin-left: 50% !important;
+  }
+  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):has(
+      :is(#context_zen-add-essential, #context_zen-remove-essential):not([hidden])
+    )
+    :is(#context_bookmarkTab, #context_bookmarkSelectedTabs):not([hidden]) {
+    margin-left: calc(50% + 1 * var(--tab-action-height, 42px)) !important;
+  }
+}
+
 /* Hide "Add Route for Domain" (Zen domain routing item — real ID found via DOM dump)
  * Label selector kept as fallback for any sibling routing items */
 @media -moz-pref('uc.hidecontext.extensionitems') {
