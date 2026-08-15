@@ -1,7 +1,7 @@
 {
   "id": "zen-context-menu",
-  "name": "Zen Context Menu",
-  "description": "Declutter your right click menu, hide options you don't need",
+  "name": "Zen Context Menu (Lean)",
+  "description": "Lean fork of Zen Context Menu: pure option hiding (display:none) — no styling, fully compatible with Context Menu Icons (CMI)",
   "homepage": "https://github.com/Impre-dev/zen-context-menu",
   "style": {
     "chrome": "chrome.css",
@@ -9,16 +9,12 @@
   },
   "readme": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/81fcd6b3-f014-4796-988f-6c3cb3874db8/readme.md",
   "image": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/81fcd6b3-f014-4796-988f-6c3cb3874db8/image.png",
-  "author": "KiKaraage",
-  "version": "3.1",
+  "author": "KiKaraage (fork: Impre)",
+  "version": "4.1.0",
   "preferences": "preferences.json",
-  "tags": [
-    "context menu"
-  ],
+  "tags": ["context menu"],
   "createdAt": "2024-10-06",
   "updatedAt": "2025-08-26",
   "upstream": "https://github.com/KiKaraage/ZenMods/",
-  "fork": [
-    "zen"
-  ]
+  "fork": ["zen"]
 }
