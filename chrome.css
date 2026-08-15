@@ -400,50 +400,8 @@
     box-shadow: none !important;
   }
 
-  /* 4. Group buttons as a tight centered row instead of 0/25/37.5/50/75%.
-   * Percentage margins resolve against the popup width, so calc(50% ± n·W)
-   * centers the group whatever the final menu width is.
-   * Default layout: 3 buttons (reload / pin / bookmark) — matches CMI cases 3-4. */
-  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
-    :is(#context_reloadTab, #context_reloadSelectedTabs):not([hidden]) {
-    margin-left: calc(50% - 1.5 * var(--tab-action-height, 42px)) !important;
-  }
-  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
-    :is(#context_pinTab, #context_unpinTab, #context_pinSelectedTabs, #context_unpinSelectedTabs):not([hidden]) {
-    margin-left: 50% !important;
-  }
-  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
-    :is(#context_bookmarkTab, #context_bookmarkSelectedTabs):not([hidden]) {
-    margin-left: calc(50% + 0.5 * var(--tab-action-height, 42px)) !important;
-  }
-
-  /* 5. With an essential button visible (add/remove are mutually exclusive),
-   * it's a 4-button row → shift every slot by half a button. Extra :has() ID
-   * makes this win over the 3-button layout above. */
-  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):has(
-      :is(#context_zen-add-essential, #context_zen-remove-essential):not([hidden])
-    )
-    :is(#context_reloadTab, #context_reloadSelectedTabs):not([hidden]) {
-    margin-left: calc(50% - 2 * var(--tab-action-height, 42px)) !important;
-  }
-  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):has(
-      :is(#context_zen-add-essential, #context_zen-remove-essential):not([hidden])
-    )
-    :is(#context_pinTab, #context_unpinTab, #context_pinSelectedTabs, #context_unpinSelectedTabs):not([hidden]) {
-    margin-left: calc(50% - 1 * var(--tab-action-height, 42px)) !important;
-  }
-  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):has(
-      :is(#context_zen-add-essential, #context_zen-remove-essential):not([hidden])
-    )
-    :is(#context_zen-add-essential, #context_zen-remove-essential):not([hidden]) {
-    margin-left: 50% !important;
-  }
-  #tabContextMenu:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):has(
-      :is(#context_zen-add-essential, #context_zen-remove-essential):not([hidden])
-    )
-    :is(#context_bookmarkTab, #context_bookmarkSelectedTabs):not([hidden]) {
-    margin-left: calc(50% + 1 * var(--tab-action-height, 42px)) !important;
-  }
+  /* 4./5. Grouped centered margins REMOVED for testing (backup: git d5eb866) —
+   * CMI's original 0/25/37.5/50/75% margins apply again. */
 }
 
 /* Hide "Add Route for Domain" (Zen domain routing item — real ID found via DOM dump)
