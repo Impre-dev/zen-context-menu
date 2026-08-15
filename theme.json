@@ -10,7 +10,7 @@
   "readme": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/81fcd6b3-f014-4796-988f-6c3cb3874db8/readme.md",
   "image": "https://raw.githubusercontent.com/zen-browser/theme-store/main/themes/81fcd6b3-f014-4796-988f-6c3cb3874db8/image.png",
   "author": "KiKaraage (fork: Impre)",
-  "version": "4.4.0",
+  "version": "4.4.1",
   "js": true,
   "scripts": {
     "pinned-url.uc.js": {

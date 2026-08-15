@@ -407,21 +407,23 @@
   }
 
   /* 4. Centered button group — layout driven by cmi-buttons.uc.js, which tags
-   * the popup with ucbtns="<visible count>" on popupshowing (event-driven).
+   * the popup with ucbtns="<visible count>" on popupshowing (event-driven)
+   * and exposes the optical compensation as --uc-cmi-nudge on the popup
+   * (from the uc.fixcontext.cminudge pref, e.g. "2.5px", "-1px"...).
    * The DOM-flex-row approach was tried and abandoned: any non-menupopup
    * container breaks CMI's `menupopup > menuitem` icon selectors, and a nested
    * menupopup never renders its content.
    * Buttons stay direct children; each gets an absolute % margin computed
-   * from the popup width. A +2.5px optical compensation corrects the measured
-   * asymmetry (left gutter 5px vs right gutter 10px) caused by the popup's
-   * internal padding. */
+   * from the popup width. The optical compensation (default 2.5px) corrects
+   * the measured asymmetry (left gutter 5px vs right gutter 10px) caused by
+   * the popup's internal padding — adjust it live via the Sine setting. */
 
   /* 4a. Three buttons: reload / {pin OR essential} / bookmark — the middle
    * slot takes pin or essential, whichever is visible (mutually exclusive
    * in 3-button states: pinned tabs, tab groups, essential tabs). */
   #tabContextMenu[ucbtns='3']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
     :is(#context_reloadTab, #context_reloadSelectedTabs):not([hidden]) {
-    margin-left: calc(50% - 1.5 * var(--tab-action-height, 42px) + 2.5px) !important;
+    margin-left: calc(50% - 1.5 * var(--tab-action-height, 42px) + var(--uc-cmi-nudge, 2.5px)) !important;
   }
   #tabContextMenu[ucbtns='3']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
     :is(
@@ -432,30 +434,37 @@
       #context_zen-add-essential,
       #context_zen-remove-essential
     ):not([hidden]) {
-    margin-left: calc(50% + 2.5px) !important;
+    margin-left: calc(50% - 0.5 * var(--tab-action-height, 42px) + var(--uc-cmi-nudge, 2.5px)) !important;
   }
   #tabContextMenu[ucbtns='3']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
     :is(#context_bookmarkTab, #context_bookmarkSelectedTabs):not([hidden]) {
-    margin-left: calc(50% + 0.5 * var(--tab-action-height, 42px) + 2.5px) !important;
+    margin-left: calc(50% + 0.5 * var(--tab-action-height, 42px) + var(--uc-cmi-nudge, 2.5px)) !important;
   }
 
   /* 4b. Four buttons (classic tabs): reload / pin / essential / bookmark */
   #tabContextMenu[ucbtns='4']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
     :is(#context_reloadTab, #context_reloadSelectedTabs):not([hidden]) {
-    margin-left: calc(50% - 2 * var(--tab-action-height, 42px) + 2.5px) !important;
+    margin-left: calc(50% - 2 * var(--tab-action-height, 42px) + var(--uc-cmi-nudge, 2.5px)) !important;
   }
   #tabContextMenu[ucbtns='4']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
     :is(#context_pinTab, #context_unpinTab, #context_pinSelectedTabs, #context_unpinSelectedTabs):not([hidden]) {
-    margin-left: calc(50% - 1 * var(--tab-action-height, 42px) + 2.5px) !important;
+    margin-left: calc(50% - 1 * var(--tab-action-height, 42px) + var(--uc-cmi-nudge, 2.5px)) !important;
   }
   #tabContextMenu[ucbtns='4']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
     :is(#context_zen-add-essential, #context_zen-remove-essential):not([hidden]) {
-    margin-left: calc(50% + 2.5px) !important;
+    margin-left: calc(50% + var(--uc-cmi-nudge, 2.5px)) !important;
   }
   #tabContextMenu[ucbtns='4']:is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu):is(#tabContextMenu)
     :is(#context_bookmarkTab, #context_bookmarkSelectedTabs):not([hidden]) {
-    margin-left: calc(50% + 1 * var(--tab-action-height, 42px) + 2.5px) !important;
+    margin-left: calc(50% + 1 * var(--tab-action-height, 42px) + var(--uc-cmi-nudge, 2.5px)) !important;
   }
+}
+
+/* Distinct icon for the extracted 'Remplacer l'URL' item — CMI's FluentUI
+ * package maps BOTH it and 'Reset pinned tab' to reload.svg; use the native
+ * globe favicon instead. CMI's icon mechanism is the --menu-image property. */
+#tabContextMenu #context_zen-replace-pinned-url-with-current {
+  --menu-image: url('chrome://global/skin/icons/defaultFavicon.svg') !important;
 }
 
 /* Hide "Add Route for Domain" (Zen domain routing item — real ID found via DOM dump)

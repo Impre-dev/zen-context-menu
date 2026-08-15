@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Zen Context Menu (Lean) — Pinned URL extractor
-// @version        1.3.0
+// @version        1.4.0
 // @description    Moves 'Replace pinned URL with current' out of the 'Edit pinned URL' submenu, right above 'Reset pinned tab', shortens its label to 'Remplacer l'URL', hides the gutted 'Edit pinned URL' submenu, and only shows the item on pinned tabs. Zen's own popupshowing handlers undo DOM edits, so everything is (re)applied on popupshown, which fires after them.
 // @author         Impre
 // @include        main
@@ -12,6 +12,8 @@
   const ITEM_ID = 'context_zen-replace-pinned-url-with-current';
   const ANCHOR_ID = 'context_zen-reset-pinned-tab';
   const SHORT_LABEL = 'Remplacer l\u2019URL';
+  const RESET_ID = 'context_zen-reset-pinned-tab';
+  const RESET_LABEL = 'R\u00e9initialiser l\u2019onglet';
 
   // Cached <menu> 'Edit pinned URL' — re-derived if Zen rebuilds the nodes
   let editMenuRef = null;
@@ -43,6 +45,15 @@
       item.removeAttribute('data-l10n-id');
       item.removeAttribute('data-l10n-args');
       item.setAttribute('label', SHORT_LABEL);
+    }
+
+    // 2b. Shorten 'Réinitialiser l'onglet épinglé' the same way — the anchor
+    //     item itself stretches the menu on pinned tabs.
+    const reset = document.getElementById(RESET_ID);
+    if (reset && reset.getAttribute('label') !== RESET_LABEL) {
+      reset.removeAttribute('data-l10n-id');
+      reset.removeAttribute('data-l10n-args');
+      reset.setAttribute('label', RESET_LABEL);
     }
 
     // 3. Hide the gutted 'Edit pinned URL' submenu. Zen resurrects it
