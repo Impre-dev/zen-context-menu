@@ -123,13 +123,6 @@
     "type": "checkbox"
   },
   {
-    "property": "uc.fixcontext.cminudge",
-    "label": "🔲 CMI buttons centering nudge (CSS length, e.g. 2.5px, 0px, -1.5px) — fine-tune the horizontal centering of the button group",
-    "type": "string",
-    "defaultValue": "2.5px",
-    "placeholder": "2.5px"
-  },
-  {
     "type": "separator",
     "label": "🌐 Page context menu (right-click a page)",
     "margin": "15px 0 15px 0"
