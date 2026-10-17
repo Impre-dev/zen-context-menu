@@ -1,6 +1,6 @@
 [
   {
-    "type": "text",
+    "type": "separator",
     "label": "📖 Legend — 📕 tab menu · 🌐 page menu · 🔍 selection · 🔗 link · 🖼️ image · 🎵📺 media · ⌨️ text input · 🤖 AI · 📁 folder · 🪟 split · 🔌 extension · 〰️ separators · ⚠️ also hides a CMI top button",
     "margin": "30px 0 15px 0",
     "size": "14px"
